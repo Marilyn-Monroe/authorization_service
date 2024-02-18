@@ -8,8 +8,9 @@ Template of a C++ service that uses [userver framework](https://github.com/userv
 To create your own userver-based service follow the following steps:
 
 1. Press the green "Use this template button" at the top of this github page
-2. Clone the service `git clone your-service-repo && cd your-service-repo && git submodule update --init`
-3. Give a proper name to your service and replace all the occurences of "authorization_service" string with that name
+2. Clone the service `git clone your-service-repo && cd your-service-repo`
+3. Give a propper name to your service and replace all the occurences of "authorization_service" string with that name
+   (could be done via `find . -not -path "./third_party/*" -not -path "./.git/*" -not -path './build_*' -type f | xargs sed -i 's/authorization_service/YOUR_SERVICE_NAME/g'`).
 4. Feel free to tweak, adjust or fully rewrite the source code of your service.
 
 
@@ -27,7 +28,7 @@ Makefile contains typicaly useful targets for development:
 * `make format` - autoformat all the C++ and Python sources
 * `make clean-` - cleans the object files
 * `make dist-clean` - clean all, including the CMake cached configurations
-* `make install` - does a `make build-release` and run install in directory set in environment `PREFIX`
+* `make install` - does a `make build-release` and runs install in directory set in environment `PREFIX`
 * `make install-debug` - does a `make build-debug` and runs install in directory set in environment `PREFIX`
 * `make docker-COMMAND` - run `make COMMAND` in docker environment
 * `make docker-build-debug` - debug build of the service with all the assertions and sanitizers enabled in docker environment
