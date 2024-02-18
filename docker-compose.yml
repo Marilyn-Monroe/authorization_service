@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
     authorization_service-container:
-        image: ghcr.io/userver-framework/ubuntu-userver-build-base:v1
+        image: ghcr.io/userver-framework/ubuntu-userver-build-base:v2
         privileged: true
         network_mode: bridge
         environment:
