@@ -7,9 +7,37 @@ components_manager:
         fs-task-processor:            # Make a separate task processor for filesystem bound tasks.
             worker_threads: $worker-fs-threads
 
+        grpc-blocking-task-processor:
+            worker_threads: $worker-grpc-threads
+            thread_name: grpc-worker
+
     default_task_processor: main-task-processor
 
     components:                       # Configuring components that were registered via component_list
+        grpc-client-factory:
+            # The TaskProcessor for blocking connection initiation
+            task-processor: grpc-blocking-task-processor
+
+            # Optional channel parameters for gRPC Core
+            # https://grpc.github.io/grpc/core/group__grpc__arg__keys.html
+            channel-args: { }
+
+        sessions-management-client:
+            endpoint: $sessions-management-endpoint
+
+        authorization-client:
+            endpoint: $authorization-endpoint
+
+        grpc-server:
+            port: 8081
+            service-defaults:
+                middlewares: [ ]
+                task-processor: main-task-processor
+
+        grpc-server-configurator:
+
+        authorization-service:
+
         server:
             listener:                 # configuring the main listening socket...
                 port: $server-port            # ...to listen on this port and...

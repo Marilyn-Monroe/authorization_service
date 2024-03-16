@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package handlers.api;
+
+service AuthorizationService {
+  rpc Authorize (AuthorizeRequest) returns (AuthorizeResponse);
+}
+
+message AuthorizeRequest {
+  string session_id = 1;
+}
+
+message AuthorizeResponse {
+  bool status = 1;
+}

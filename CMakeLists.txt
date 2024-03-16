@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.12)
 project(authorization_service CXX)
 
+# Enable userver libraries that are needed in this project
+set(USERVER_FEATURE_GRPC ON CACHE BOOL "" FORCE)
+
 # Compatibility mode: some systems don't support these features
 set(USERVER_FEATURE_CRYPTOPP_BLAKE2 OFF CACHE BOOL "" FORCE)
 set(USERVER_FEATURE_GRPC_CHANNELZ OFF CACHE BOOL "" FORCE)
@@ -16,8 +19,25 @@ userver_setup_environment()
 add_library(${PROJECT_NAME}_objs OBJECT
     src/hello.hpp
     src/hello.cpp
+    src/sessions_management_client.cpp
+    src/sessions_management_client.hpp
+    src/grpc_server_configurator.cpp
+    src/grpc_server_configurator.hpp
+    src/authorization_service.cpp
+    src/authorization_service.hpp
+    src/authorization_client.cpp
+    src/authorization_client.hpp
 )
 target_link_libraries(${PROJECT_NAME}_objs PUBLIC userver-core)
+
+
+# Create a proto library with userver extensions
+include(GrpcTargets)
+userver_add_grpc_library(${PROJECT_NAME}_proto PROTOS
+    handlers/sessions_management.proto
+    handlers/authorization.proto
+)
+target_link_libraries(${PROJECT_NAME}_objs PUBLIC ${PROJECT_NAME}_proto)
 
 
 # The Service

@@ -1,28 +1,42 @@
 version: "3.8"
 
 services:
-    authorization_service-container:
-        image: ghcr.io/userver-framework/ubuntu-userver-build-base:v2
-        privileged: true
-        network_mode: bridge
-        environment:
-          - PREFIX=${PREFIX:-~/.local}
-          - CC
-          - CCACHE_DIR=/authorization_service/.ccache
-          - CCACHE_HASHDIR
-          - CCACHE_NOHASHDIR
-          - CCACHE_PREFIX
-          - CCACHE_SIZE
-          - CMAKE_OPTS
-          - CORES_DIR=/cores
-          - CXX
-          - MAKE_OPTS
-          - CMAKE_COMMON_FLAGS
-        volumes:
-          - .:/authorization_service:rw
-          - ./third_party/userver/tools/docker:/tools:ro
-        ports:
-          - 8080:8080
-        working_dir: /authorization_service
-        entrypoint:
-          - /tools/run_as_user.sh
+  authorization_service-container:
+    image: ghcr.io/userver-framework/ubuntu-22.04-userver-base:latest
+    privileged: true
+    environment:
+      - PREFIX=${PREFIX:-~/.local}
+      - CC
+      - CCACHE_DIR=/authorization_service/.ccache
+      - CCACHE_HASHDIR
+      - CCACHE_NOHASHDIR
+      - CCACHE_PREFIX
+      - CCACHE_SIZE
+      - CMAKE_OPTS
+      - CORES_DIR=/cores
+      - CXX
+      - MAKE_OPTS
+      - CMAKE_COMMON_FLAGS
+    volumes:
+      - .:/authorization_service:rw
+      - ./third_party/userver/tools/docker:/tools:ro
+    ports:
+      - '8080:8080'
+      - '8081:8081'
+    working_dir: /authorization_service
+    entrypoint:
+      - /tools/run_as_user.sh
+    networks:
+      - dockerbridge
+
+networks:
+  dockerbridge:
+    enable_ipv6: true
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "true"
+    ipam:
+      driver: default
+      config:
+        - subnet: 2001:3984:3989::/64
+          gateway: 2001:3984:3989::1
