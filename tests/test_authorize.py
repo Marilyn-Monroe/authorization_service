@@ -3,8 +3,8 @@ import handlers.authorization_pb2 as authorization_protos
 
 
 # Start via `make test-debug` or `make test-release`
-async def test_valid_session(grpc_authorization_service,
-                             mock_sessions_management):
+async def test_authorize_valid_session(grpc_authorization_service,
+                                       mock_sessions_management):
     @mock_sessions_management('CheckSession')
     async def mock_check_session(request, context):
         assert request.session_id
@@ -18,8 +18,8 @@ async def test_valid_session(grpc_authorization_service,
     assert response.status
 
 
-async def test_invalid_session(grpc_authorization_service,
-                               mock_sessions_management):
+async def test_authorize_invalid_session(grpc_authorization_service,
+                                         mock_sessions_management):
     @mock_sessions_management('CheckSession')
     async def mock_check_session(request, context):
         assert request.session_id
