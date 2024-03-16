@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   authorization_service-container:
-    image: ghcr.io/userver-framework/ubuntu-22.04-userver-base:latest
+    image: ghcr.io/userver-framework/ubuntu-22.04-userver-base-ci:latest
     privileged: true
     environment:
       - PREFIX=${PREFIX:-~/.local}
