@@ -11,7 +11,6 @@
 #include "authorization_client.hpp"
 #include "authorization_service.hpp"
 #include "grpc_server_configurator.hpp"
-#include "hello.hpp"
 #include "sessions_management_client.hpp"
 
 int main(int argc, char* argv[]) {
@@ -25,7 +24,6 @@ int main(int argc, char* argv[]) {
           .Append<userver::ugrpc::server::ServerComponent>()
           .Append<userver::ugrpc::client::ClientFactoryComponent>();
 
-  authorization_service::AppendHello(component_list);
   authorization_service::AppendAuthorizationService(component_list);
   authorization_service::AppendSessionsManagementClient(component_list);
   authorization_service::AppendAuthorizationClient(component_list);
